@@ -188,7 +188,7 @@ class S3FDExtractor(object):
         scale_to = max(64, scale_to)
 
         input_scale = d / scale_to
-        input_image = cv2.resize (input_image, ( int(w/input_scale), int(h/input_scale) ), interpolation=cv2.INTER_LINEAR)
+        input_image = cv2.resize (input_image, ( int64(w/input_scale), int64(h/input_scale) ), interpolation=cv2.INTER_LINEAR)
 
         olist = self.model.run ([ input_image[None,...] ] )
 
@@ -199,7 +199,7 @@ class S3FDExtractor(object):
             if min(r-l,bt) < 40: #filtering faces < 40pix by any side
                 continue
             b += bt*0.1 #enlarging bottom line a bit for 2DFAN-4, because default is not enough covering a chin
-            detected_faces.append ( [int(x) for x in (l,t,r,b) ] )
+            detected_faces.append ( [int64(x) for x in (l,t,r,b) ] )
 
         #sort by largest area first
         detected_faces = [ [(l,t,r,b), (r-l)*(b-t) ]  for (l,t,r,b) in detected_faces ]
@@ -242,7 +242,7 @@ class S3FDExtractor(object):
             bboxlist = np.zeros((1, 5))
 
         bboxlist = bboxlist[self.refine_nms(bboxlist, 0.3), :]
-        bboxlist = [ x[:-1].astype(np.int64) for x in bboxlist if x[-1] >= 0.5]
+        bboxlist = [ x[:-1].astype(np.int) for x in bboxlist if x[-1] >= 0.5]
         return bboxlist
 
     def refine_nms(self, dets, thresh):
