@@ -1,4 +1,4 @@
-mainif __name__ == "__main__":
+if __name__ == "__main__":
     # Fix for linux
     import multiprocessing
     multiprocessing.set_start_method("spawn")
